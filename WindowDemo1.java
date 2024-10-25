@@ -5,6 +5,7 @@ import java.io.*;
 import java.lang.Thread;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /*
  *  The main window of the gui.
@@ -19,6 +20,7 @@ public class WindowDemo1 extends JFrame implements ActionListener, MouseListener
 	JScrollPane fontScroll;
 	JButton applyButton;
 	//JTextArea textArea;
+	private JList<String> fontStyList;
 	WindowDemo wd;
 	/*
 	 *  constructor method takes as input how many rows and columns of gridsquares to create
@@ -32,7 +34,7 @@ public class WindowDemo1 extends JFrame implements ActionListener, MouseListener
 		JPanel jp1=(JPanel) getContentPane().add(new JPanel());
 		//Available font styles 
 		String [] fontStyNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-		JList<String> fontStyList = new JList<>(fontStyNames);
+		fontStyList = new JList<>(fontStyNames);
 
 			fontScroll = new JScrollPane(fontStyList);
 		
@@ -56,6 +58,18 @@ public class WindowDemo1 extends JFrame implements ActionListener, MouseListener
 
 			applyButton.addActionListener(this); // or this
 			jp1.add(applyButton);
+
+			fontStyList.addListSelectionListener(new ListSelectionListener() {
+				@Override
+				public void valueChanged(ListSelectionEvent e)
+				{
+					if (!e.getValueIsAdjusting())
+					{
+						String pickFont = fontStyList.getSelectedValue();
+						changeFont(pickFont);
+					}
+				}
+			});
 			
 
 
@@ -79,18 +93,16 @@ public class WindowDemo1 extends JFrame implements ActionListener, MouseListener
 
 		if (aevt.getSource()== applyButton)
 		{
-			fontStyList.addActionListener(new ListSelectionEvent()
-			{
-				public void changeVal(ListSelectionEvent e) 
-				{
-					if (!e.getValueIsAdjusting()) 
-					{
-						String pickFont = fontStyList.getSelectedValue();
-						changeFont(pickFont);
+			
+			
+				
+					
+					String pickFont = fontStyList.getSelectedValue();
+					changeFont(pickFont);
 
-					}
-				}
-			});
+					
+				
+			
 		}
 		
 		
@@ -115,10 +127,11 @@ public class WindowDemo1 extends JFrame implements ActionListener, MouseListener
 		{
 			tfFontSize.setFont(new Font(name, Font.PLAIN, 16));
 		}
+
+		this.dispose();
+		new WindowDemo();
 	}
 
 
 
 }
-
-
