@@ -14,7 +14,7 @@ import javax.swing.*;
  */
 public class DSMemory extends JFrame implements ActionListener, MouseListener
 {
-	JButton bFontSize, bFontStyle, bResolution, bMainMenu;
+	private JButton bFontSize, bFontStyle, bResolution, bMainMenu;
 	Font font1;
 	Integer settingWidth, settingHeight;
 	/*

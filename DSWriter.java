@@ -16,9 +16,9 @@ import javax.swing.event.ListSelectionListener;
 public class DSWriter extends JFrame implements ActionListener, MouseListener
 {
     // written by Arnob
-	JTextField tfFontSize, tfWindowWidth, tfWindowHeight;
-	DSMemory wd;
-    JButton bSubmit1, bSubmit2;
+	private JTextField tfFontSize, tfWindowWidth, tfWindowHeight;
+	private DSMemory wd;
+    private JButton bSubmit1, bSubmit2;
 
     // written by Mashrur
     JScrollPane fontScroll;
