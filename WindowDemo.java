@@ -15,7 +15,8 @@ import javax.swing.*;
 public class WindowDemo extends JFrame implements ActionListener, MouseListener
 {
 	JButton bFontSize, bFontStyle, bResolution, bMainMenu;
-	
+	Font font1;
+	Integer settingWidth, settingHeight;
 	/*
 	 *  constructor method takes as input how many rows and columns of gridsquares to create
 	 *  it then creates the panels, their subcomponents and puts them all together in the main frame
@@ -24,6 +25,7 @@ public class WindowDemo extends JFrame implements ActionListener, MouseListener
 	 */
 	public WindowDemo()
 	{
+		font1=new Font("SansSerif", Font.PLAIN, 12);
 		this.setSize(190,190);
 		JPanel jp1=(JPanel) getContentPane().add(new JPanel());
 		bFontSize = (JButton) jp1.add(new JButton("font size")); bFontSize.addActionListener(this);
@@ -49,17 +51,17 @@ public class WindowDemo extends JFrame implements ActionListener, MouseListener
 		// if resetting the squares' colours is requested then do so
 		if (selected.equals(bFontSize))
 		{
-			WindowDemo1 wd1 = new WindowDemo1("font size");
+			WindowDemo1 wd1 = new WindowDemo1("font size", this);
 			setVisible(false);
 		}
 		else if(selected.equals(bFontStyle))
 		{
-			WindowDemo1 wd1 = new WindowDemo1("font size");
+			WindowDemo1 wd1 = new WindowDemo1("font size", this);
 			setVisible(false);
 		}
 		else if(selected.equals(bResolution))
 		{
-			WindowDemo1 wd1 = new WindowDemo1("resolution");
+			WindowDemo1 wd1 = new WindowDemo1("resolution", this);
 			setVisible(false);
 		}
 		else if(selected.equals(bMainMenu))

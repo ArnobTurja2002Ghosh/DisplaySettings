@@ -16,29 +16,39 @@ public class WindowDemo1 extends JFrame implements ActionListener, MouseListener
 {
 	JTextField tfFontSize, tfWindowWidth, tfWindowHeight;
 	WindowDemo wd;
+    JButton bSubmit1, bSubmit2;
 	/*
 	 *  constructor method takes as input how many rows and columns of gridsquares to create
 	 *  it then creates the panels, their subcomponents and puts them all together in the main frame
 	 *  it makes sure that action listeners are added to selectable items
 	 *  it makes sure that the gui will be visible
 	 */
-	public WindowDemo1(String arg1)
+	public WindowDemo1(String arg1, WindowDemo wd)
 	{
-		this.setSize(190,190);
+        this.wd=wd;
+		this.setSize(250,190);
 		JPanel jp1=(JPanel) getContentPane().add(new JPanel());
-
         if(arg1.equals("font size"))
         {
-            tfFontSize=new JTextField(16);
+            tfFontSize=new JTextField(Integer.toString(wd.font1.getSize()));
             jp1.add(tfFontSize);
+            bSubmit1=new JButton("Submit");
+            jp1.add(bSubmit1);
+            bSubmit1.addActionListener(this);
         }
         else if(arg1.equals("resolution"))
         {
-            tfWindowHeight=new JTextField(16); tfWindowWidth=new JTextField(16);
+            tfWindowHeight=new JTextField(6); tfWindowWidth=new JTextField(6);
+            jp1.add(new JLabel("Preferred width in pixels:"));
             jp1.add(tfWindowWidth);
+            jp1.add(new JLabel("Preferred height in pixels:"));
             jp1.add(tfWindowHeight);
+            bSubmit2=new JButton("Submit");
+            jp1.add(bSubmit2);
+            bSubmit2.addActionListener(this);
         }
-
+        
+         
 		setVisible(true);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,7 +62,57 @@ public class WindowDemo1 extends JFrame implements ActionListener, MouseListener
 	 */
 	public void actionPerformed(ActionEvent aevt)
 	{
-		
+		Object selected = aevt.getSource();
+        if(selected.equals(bSubmit1))
+        {
+            
+                
+            try 
+            {
+                Integer number = Integer.valueOf(tfFontSize.getText());
+                if(number<1)
+                {
+                    tfFontSize.setText("");
+                }
+                else 
+                {
+                    wd.font1=new Font(wd.font1.getName(), wd.font1.getStyle(), number);
+                    setVisible(false);
+                    this.wd.setVisible(true);
+                }
+            } 
+            catch (NumberFormatException e) 
+            {
+                tfFontSize.setText("");
+                System.out.println("Invalid integer input");
+            }
+                
+            
+            
+        }
+        else if(selected.equals(bSubmit2))
+        {
+            try 
+            {
+                Integer number1 = Integer.valueOf(tfWindowWidth.getText());
+                Integer number2 = Integer.valueOf(tfWindowHeight.getText());
+                if(number1<1 || number2<1)
+                {
+                    tfWindowHeight.setText(""); tfWindowWidth.setText("");
+                }
+                else
+                {
+                    this.wd.settingWidth=number1;
+                    this.wd.settingHeight=number2;
+                    this.wd.setVisible(true);
+                }
+            } 
+            catch (NumberFormatException e) 
+            {
+                tfWindowHeight.setText(""); tfWindowWidth.setText("");
+                System.out.println("Invalid integer input");
+            } 
+        }
 		
 	}
 
