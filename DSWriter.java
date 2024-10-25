@@ -4,7 +4,8 @@ import java.util.Random;
 import java.io.*;
 import java.lang.Thread;
 import javax.swing.*;
-
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 /*
  *  The main window of the gui.
  *  Notice that it extends JFrame - so we can add our own components.
@@ -14,9 +15,16 @@ import javax.swing.*;
  */
 public class DSWriter extends JFrame implements ActionListener, MouseListener
 {
+    // written by Arnob
 	JTextField tfFontSize, tfWindowWidth, tfWindowHeight;
 	DSMemory wd;
     JButton bSubmit1, bSubmit2;
+
+    // written by Mashrur
+    JScrollPane fontScroll;
+	JButton applyButton;
+	//JTextArea textArea;
+	private JList<String> fontStyList;
 	/*
 	 *  constructor method takes as input how many rows and columns of gridsquares to create
 	 *  it then creates the panels, their subcomponents and puts them all together in the main frame
@@ -26,8 +34,10 @@ public class DSWriter extends JFrame implements ActionListener, MouseListener
 	public DSWriter(String arg1, DSMemory wd)
 	{
         this.wd=wd;
-		this.setSize(250,200);
+		this.setSize(250,250);
 		JPanel jp1=(JPanel) getContentPane().add(new JPanel());
+
+        //written by Arnob
         if(arg1.equals("font size"))
         {
             tfFontSize=new JTextField(Integer.toString(wd.font1.getSize()));
@@ -48,6 +58,33 @@ public class DSWriter extends JFrame implements ActionListener, MouseListener
             bSubmit2.addActionListener(this);
         }
         
+        // Written by Mashrur
+        else if(arg1.equals("font style"))
+        {
+            String [] fontStyNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		    fontStyList = new JList<>(fontStyNames);
+
+			fontScroll = new JScrollPane(fontStyList);
+
+            jp1.add(fontScroll);
+            applyButton = new JButton("Apply Change");
+
+            applyButton.addActionListener(this); // or this
+            jp1.add(applyButton);
+
+            fontStyList.addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e)
+                {
+                    if (!e.getValueIsAdjusting())
+                    {
+                        String pickFont = fontStyList.getSelectedValue();
+                        changeFont(pickFont);
+                    }
+                }
+            });
+    
+        }
          
 		setVisible(true);
 		
@@ -63,6 +100,8 @@ public class DSWriter extends JFrame implements ActionListener, MouseListener
 	public void actionPerformed(ActionEvent aevt)
 	{
 		Object selected = aevt.getSource();
+
+        //written by Arnob
         if(selected.equals(bSubmit1))
         {
             
@@ -90,6 +129,8 @@ public class DSWriter extends JFrame implements ActionListener, MouseListener
             
             
         }
+
+        //written by Arnob
         else if(selected.equals(bSubmit2))
         {
             try 
@@ -116,9 +157,27 @@ public class DSWriter extends JFrame implements ActionListener, MouseListener
                 System.out.println("Invalid integer input");
             } 
         }
+
+        //written by Mashrur
+        else if (aevt.getSource()== applyButton)
+		{	
+			String pickFont = fontStyList.getSelectedValue();
+			changeFont(pickFont);	
+		}
 		
 	}
 
+    //written by Mashrur
+    private void changeFont(String name)
+	{
+		if(tfFontSize != null)
+		{
+			tfFontSize.setFont(new Font(name, Font.PLAIN, 16));
+		}
+
+		dispose();
+		this.wd.setVisible(true);
+	}
 
 	// Mouse Listener events
 	public void mouseClicked(MouseEvent mevt)

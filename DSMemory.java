@@ -56,7 +56,7 @@ public class DSMemory extends JFrame implements ActionListener, MouseListener
 		}
 		else if(selected.equals(bFontStyle))
 		{
-			DSWriter wd1 = new DSWriter("font size", this);
+			DSWriter wd1 = new DSWriter("font style", this);
 			setVisible(false);
 		}
 		else if(selected.equals(bResolution))
