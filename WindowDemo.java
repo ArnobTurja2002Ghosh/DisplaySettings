@@ -24,7 +24,7 @@ public class WindowDemo extends JFrame implements ActionListener, MouseListener
 	 */
 	public WindowDemo()
 	{
-		this.setSize(190,190);
+		this.setSize(500,500);
 		JPanel jp1=(JPanel) getContentPane().add(new JPanel());
 		bFontSize = (JButton) jp1.add(new JButton("font size")); bFontSize.addActionListener(this);
 		bFontStyle = (JButton) jp1.add(new JButton("font style")); bFontStyle.addActionListener(this);
@@ -54,7 +54,7 @@ public class WindowDemo extends JFrame implements ActionListener, MouseListener
 		}
 		else if(selected.equals(bFontStyle))
 		{
-			WindowDemo1 wd1 = new WindowDemo1("font size");
+			WindowDemo1 wd1 = new WindowDemo1("font style");
 			setVisible(false);
 		}
 		else if(selected.equals(bResolution))
@@ -65,6 +65,12 @@ public class WindowDemo extends JFrame implements ActionListener, MouseListener
 		else if(selected.equals(bMainMenu))
 		{
 			setVisible(false);
+		}
+		else if(selected.equals(bMainMenu)) 
+		{
+			System.exit(0);
+			
+
 		}
 		
 	}
