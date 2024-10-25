@@ -4,6 +4,7 @@ import java.util.Random;
 import java.io.*;
 import java.lang.Thread;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 
 /*
  *  The main window of the gui.
@@ -14,7 +15,10 @@ import javax.swing.*;
  */
 public class WindowDemo1 extends JFrame implements ActionListener, MouseListener
 {
-	JTextField tfFontSize, tfWindowWidth, tfWindowHeight;
+	JTextField tfFontSize, tfWindowWidth, tfWindowHeight, tfFontStyle;
+	JScrollPane fontScroll;
+	JButton applyButton;
+	//JTextArea textArea;
 	WindowDemo wd;
 	/*
 	 *  constructor method takes as input how many rows and columns of gridsquares to create
@@ -24,9 +28,14 @@ public class WindowDemo1 extends JFrame implements ActionListener, MouseListener
 	 */
 	public WindowDemo1(String arg1)
 	{
-		this.setSize(190,190);
+		this.setSize(200,200);
 		JPanel jp1=(JPanel) getContentPane().add(new JPanel());
+		//Available font styles 
+		String [] fontStyNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		JList<String> fontStyList = new JList<>(fontStyNames);
 
+			fontScroll = new JScrollPane(fontStyList);
+		
         if(arg1.equals("font size"))
         {
             tfFontSize=new JTextField(16);
@@ -37,6 +46,21 @@ public class WindowDemo1 extends JFrame implements ActionListener, MouseListener
             tfWindowHeight=new JTextField(16); tfWindowWidth=new JTextField(16);
             jp1.add(tfWindowWidth);
             jp1.add(tfWindowHeight);
+        }
+
+		else if(arg1.equals("font style"))
+        {
+			
+			jp1.add(fontScroll);
+			applyButton = new JButton("Apply Change");
+
+			applyButton.addActionListener(this); // or this
+			jp1.add(applyButton);
+			
+
+
+
+           
         }
 
 		setVisible(true);
@@ -52,6 +76,22 @@ public class WindowDemo1 extends JFrame implements ActionListener, MouseListener
 	 */
 	public void actionPerformed(ActionEvent aevt)
 	{
+
+		if (aevt.getSource()== applyButton)
+		{
+			fontStyList.addActionListener(new ListSelectionEvent()
+			{
+				public void changeVal(ListSelectionEvent e) 
+				{
+					if (!e.getValueIsAdjusting()) 
+					{
+						String pickFont = fontStyList.getSelectedValue();
+						changeFont(pickFont);
+
+					}
+				}
+			});
+		}
 		
 		
 	}
@@ -68,4 +108,17 @@ public class WindowDemo1 extends JFrame implements ActionListener, MouseListener
 	public void mouseExited(MouseEvent arg0){}
 	public void mousePressed(MouseEvent arg0) {}
 	public void mouseReleased(MouseEvent arg0) {}
+
+	private void changeFont(String name)
+	{
+		if(tfFontSize != null)
+		{
+			tfFontSize.setFont(new Font(name, Font.PLAIN, 16));
+		}
+	}
+
+
+
 }
+
+
